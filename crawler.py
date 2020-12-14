@@ -17,25 +17,25 @@ chrome_path = r"driver/chromedriver"
 driver = webdriver.Chrome(chrome_path)
 driver.get("https://parenting.firstcry.com/baby-names/starting-with/a/?sort=Sort%20A%20to%20Z")
 try:
-    element = WebDriverWait(driver, 10).until(
-    EC.presence_of_element_located((By.ID, "root")))
+    element = WebDriverWait(driver, 10).until(    
+    EC.presence_of_element_located((By.ID, "root")))                 // overcomes the lazy loading issue
 
 finally:
-    names = driver.find_element_by_class_name("names-list")
-    items = names.find_elements_by_tag_name("li")
+    names = driver.find_element_by_class_name("names-list")          // Finding the object by the class name 
+    items = names.find_elements_by_tag_name("li")                    // Finding the object by the tag name
 
 
 data = {}
-data['babies'] = []
+data['babies'] = []                            // Createing an array
 
 for item in items:
-    babyNames = item.find_element_by_class_name("baby-name").text
-    babyNameMeanings = item.find_element_by_class_name("nm-ming").text
+    babyNames = item.find_element_by_class_name("baby-name").text        // Converting the babynames as txt file 
+    babyNameMeanings = item.find_element_by_class_name("nm-ming").text   // converting the babyNameMeanings as txt file
     print(babyNames)
-    data['babies'].append(Baby(babyNames,babyNameMeanings).tojson())
+    data['babies'].append(Baby(babyNames,babyNameMeanings).tojson())     // Appending the babynames and babymeanings into a json function
 
-with open('babynames.json','w') as outfile:
-    json.dump(data,outfile)
+with open('babynames.json','w') as outfile:                              // Create json file babyname.json
+    json.dump(data,outfile)                                              // Writing all the data into babynames.json file
 
 
 driver.close()
